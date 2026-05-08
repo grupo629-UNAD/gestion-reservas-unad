@@ -1,76 +1,52 @@
 import re
 
-def validar_no_vacio(valor, campo="Campo"):
+def validate_not_empty(value, field_name="Field"):
     """
     Verifica que un campo no esté vacío
     """
-    if valor is None or str(valor).strip() == "":
-        raise ValueError(f"{campo} no puede estar vacío")
+    if value is None or str(value).strip() == "":
+        raise ValueError(f"{field_name} cannot be empty")
 
-
-def validar_longitud(valor, minimo=1, maximo=255, campo="Campo"):
+def validate_length(value, min_len=1, max_len=255, field_name="Field"):
     """
     Verifica que el texto tenga una longitud válida
     """
-    longitud = len(str(valor))
-    if longitud < minimo or longitud > maximo:
-        raise ValueError(f"{campo} debe tener entre {minimo} y {maximo} caracteres")
+    length = len(str(value))
+    if length < min_len or length > max_len:
+        raise ValueError(f"{field_name} must be between {min_len} and {max_len} characters")
 
-
-def validar_email(correo):
+def validate_email(email):
     """
     Verifica que el correo tenga formato válido
     """
-    patron = r'^[\w\.-]+@[\w\.-]+\.\w+$'
-    if not re.match(patron, correo):
-        raise ValueError("Correo inválido")
+    pattern = r'^[\w\.-]+@[\w\.-]+\.\w+$'
+    if not re.match(pattern, email):
+        raise ValueError("Invalid email format")
 
-
-def validar_solo_numeros(valor, campo="Campo"):
+def validate_only_numbers(value, field_name="Field"):
     """
     Verifica que solo contenga números
     """
-    if not str(valor).isdigit():
-        raise ValueError(f"{campo} debe contener solo números")
+    if not str(value).isdigit():
+        raise ValueError(f"{field_name} must contain only numbers")
 
-
-def validar_rango(valor, minimo=None, maximo=None, campo="Campo"):
+def validate_range(value, min_val=None, max_val=None, field_name="Field"):
     """
     Verifica que un número esté dentro de un rango
     """
     try:
-        numero = float(valor)
+        number = float(value)
     except:
-        raise ValueError(f"{campo} debe ser numérico")
+        raise ValueError(f"{field_name} must be a number")
+    if min_val is not None and number < min_val:
+        raise ValueError(f"{field_name} cannot be less than {min_val}")
+    if max_val is not None and number > max_val:
+        raise ValueError(f"{field_name} cannot be greater than {max_val}")
 
-    if minimo is not None and numero < minimo:
-        raise ValueError(f"{campo} no puede ser menor a {minimo}")
-
-    if maximo is not None and numero > maximo:
-        raise ValueError(f"{campo} no puede ser mayor a {maximo}")
-
-
-def validar_texto_seguro(valor, campo="Campo"):
+def validate_safe_text(value, field_name="Field"):
     """
-    Evita caracteres peligrosos
+    Evita caracteres peligrosos (SQL Injection básica)
     """
-    patron = r'^[a-zA-Z0-9\sáéíóúÁÉÍÓÚñÑ.,_-]+$'
-    if not re.match(patron, valor):
-        raise ValueError(f"{campo} contiene caracteres no permitidos")
-
-
-def validar_password(clave):
-    """
-    Verifica que la contraseña sea segura
-    """
-    if len(clave) < 8:
-        raise ValueError("La contraseña debe tener al menos 8 caracteres")
-
-    if not re.search(r'[A-Z]', clave):
-        raise ValueError("Debe tener una mayúscula")
-
-    if not re.search(r'[a-z]', clave):
-        raise ValueError("Debe tener una minúscula")
-
-    if not re.search(r'[0-9]', clave):
-        raise ValueError("Debe tener un número")
+    pattern = r'^[a-zA-Z0-9\sáéíóúÁÉÍÓÚñÑ.,_-]+$'
+    if not re.match(pattern, value):
+        raise ValueError(f"{field_name} contains invalid characters")
