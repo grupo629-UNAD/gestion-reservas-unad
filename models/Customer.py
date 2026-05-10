@@ -5,10 +5,29 @@ from models.Entidad_base import EntidadBase
 class Customer(EntidadBase):
     def __init__(self, id_system, name, email, phone, address):
         super().__init__(id_system)
-        self.name = name
-        self.email = email
-        self.phone = phone
-        self.address = address
-# se define un método para obtener la información del cliente, que devuelve una cadena con los detalles del cliente
+        self.__name = name
+        self.__email = email
+        self.__phone = phone
+        self.__address = address
+
+    # se definen propiedades para acceder a los atributos privados name y email, que devuelven el valor de los atributos correspondientes
+    @property
+    def name(self):
+        return self.__name
+    
+    # se define una propiedad para acceder al atributo privado email, que devuelve el valor del atributo correspondiente
+    @property
+    def email(self):
+        return self.__email
+    
+    @property
+    def phone(self):
+        return self.__phone
+
+    @property
+    def address(self):
+        return self.__address
+
+    # se define un método para obtener la información del cliente, que devuelve una cadena con los detalles del cliente
     def get_info(self):
-        return f"Customer ID: {self.id_system}, Name: {self.name}, Email: {self.email}, Phone: {self.phone}, Address: {self.address}"
+        return f"Customer ID: {self.id_system}, Name: {self.__name}, Email: {self.__email}, Phone: {self.__phone}, Address: {self.__address}"
